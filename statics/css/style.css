@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Michroma&display=swap');
+
+body {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+   height: 100vh;
+   width: 100vw;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   background-attachment: fixed;
+   background-image: url("../assets/bg.jpg");
+   background-size: cover;
+   background-repeat: no-repeat;
+   background-position: center;
+}
+
+.parent {
+   display: grid;
+   grid-template-columns: repeat(5, auto);
+   grid-template-rows: auto;
+   border-radius: 10px;
+   padding: 10px;
+   gap: 30px;
+   padding-top: 3500px;
+}
+
+.artistCard {
+   position: relative;
+   background: rgba(255, 255, 255, 0.17);
+   border-radius: 16px;
+   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+   backdrop-filter: blur(5px);
+   -webkit-backdrop-filter: blur(5px);
+   border: 1px solid rgba(255, 255, 255, 0.3);
+   padding: 20px;
+   display: grid;
+   place-items: center;
+   grid-template-columns: repeat(5, auto);
+   box-shadow: 0px 2px 10px 5px #dbdbdb3d;
+   transition: 0.5s all;
+   font-family: "Michroma", sans-serif;
+   font-weight: 400;
+   font-style: normal;
+   color: white;
+}
+
+.artistCard:hover {
+   box-shadow: 0px 5px 10px 5px #dbdbdbb2;
+   transform: translateY(-15px);
+   cursor: pointer;
+}
+
+.artistCard img {
+   border-radius: 50%;
+   animation: spin 5s infinite;
+}
+
+.artistCard .mockup,
+.artistCard .imgContent {
+   grid-column: 1 / 5;
+   grid-row: 1 / 1;
+}
+
+.artistCard .date {
+   position: absolute;
+   grid-column: 4 / 5;
+   grid-row: 1 / 1;
+   z-index: 99;
+   font-size: 13px;
+   top: -22px;
+   right: -5px;
+}
+
+.artistCard .informations {
+   grid-column: 1 / 5;
+   grid-row: 2 / 2;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   flex-direction: column;
+   transition: 0.5s all;
+}
+
+.artistCard .informations:hover {
+   text-shadow: 0px 0px 20px rgb(3, 3, 3);
+}
+
+@keyframes spin {
+   from {
+      transform: rotate(0deg);
+   }
+
+   to {
+      transform: rotate(360deg);
+   }
+}
