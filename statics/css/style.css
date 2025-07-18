@@ -4,8 +4,8 @@ body {
    margin: 0;
    padding: 0;
    box-sizing: border-box;
-   height: 100vh;
-   width: 100vw;
+   width: 100%;
+   height: 100%;
    display: flex;
    align-items: center;
    justify-content: center;
@@ -16,23 +16,26 @@ body {
    background-position: center;
 }
 
+a {
+   text-decoration: none;
+}
+
 .parent {
    display: grid;
-   grid-template-columns: repeat(5, auto);
-   grid-template-rows: auto;
+   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+   width: 100%;
    border-radius: 10px;
    padding: 10px;
    gap: 30px;
-   padding-top: 3500px;
+   padding-top: 30px;
 }
 
 .artistCard {
    position: relative;
    background: rgba(255, 255, 255, 0.17);
    border-radius: 16px;
-   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+   box-shadow: 0 0px 30px rgba(156, 156, 156, 0.1);
    backdrop-filter: blur(5px);
-   -webkit-backdrop-filter: blur(5px);
    border: 1px solid rgba(255, 255, 255, 0.3);
    padding: 20px;
    display: grid;
@@ -46,6 +49,8 @@ body {
    color: white;
 }
 
+
+
 .artistCard:hover {
    box-shadow: 0px 5px 10px 5px #dbdbdbb2;
    transform: translateY(-15px);
@@ -54,7 +59,12 @@ body {
 
 .artistCard img {
    border-radius: 50%;
-   animation: spin 5s infinite;
+   animation: spin 5s linear infinite;
+   animation-play-state: running;
+}
+
+.artistCard:hover {
+   animation-play-state: paused;
 }
 
 .artistCard .mockup,
