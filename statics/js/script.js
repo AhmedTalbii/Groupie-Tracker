@@ -1,11 +1,29 @@
-var hoverSound = document.querySelector(".hoverSound");
-var cards = document.querySelectorAll(".artistCard");
+const hoverSound = document.querySelector(".hoverSound");
+const cards = document.querySelectorAll(".artistCard");
+const searchInput = document.querySelector("#search");
 
-function onHover() {
-    hoverSound.currentTime = 0;
-    hoverSound.play();
+
+const parent = document.querySelector(".parent");
+const allCards = Array.from(document.querySelectorAll(".artistCard"));
+
+OnPressKeyBoard();
+
+searchInput.addEventListener("keyup", OnPressKeyBoard);
+
+function OnPressKeyBoard() {
+    const query = searchInput.value.toLowerCase().trim();
+    parent.innerHTML = ""; 
+    allCards.forEach(card => {
+        const name = card.id.toLowerCase();
+        if (query === "" || name.startsWith(query)) {
+            parent.appendChild(card);
+        }
+    });
 }
 
-cards.forEach(function (card) {
-    card.addEventListener("mouseenter", onHover);
-});
+cards.forEach(card =>
+    card.addEventListener("mouseenter", () => {
+        hoverSound.currentTime = 0;
+        hoverSound.play();
+    })
+);
