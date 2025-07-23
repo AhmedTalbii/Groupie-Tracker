@@ -15,7 +15,7 @@ function OnPressKeyBoard() {
     parent.innerHTML = ""; 
     allCards.forEach(card => {
         const name = card.id.toLowerCase();
-        if (query === "" || name.startsWith(query)) {
+        if (query === "" || name.includes(query)) {
             parent.appendChild(card);
         }
     });
