@@ -1,4 +1,3 @@
-const hoverSound = document.querySelector(".hoverSound");
 const cards = document.querySelectorAll(".artistCard");
 const searchInput = document.querySelector("#search");
 

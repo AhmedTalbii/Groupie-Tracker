@@ -3,6 +3,7 @@ package server
 import (
 	"fmt"
 	"groupietracker/config"
+	"groupietracker/controllers/fetchers"
 	"groupietracker/routes"
 	"log"
 	"net/http"
@@ -10,7 +11,7 @@ import (
 
 func StartServer() {
 	// fetch the data first
-	
+	fetchers.InitFetch()
 
 	// declare tha handler
 	mux := http.NewServeMux()

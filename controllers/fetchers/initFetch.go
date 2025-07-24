@@ -1,6 +1,7 @@
 package fetchers
 
 import (
+	"fmt"
 	"log"
 
 	"groupietracker/config"
@@ -8,6 +9,7 @@ import (
 )
 
 func InitFetch() {
+	fmt.Println("🔄 Fetching artist data... please wait")
 	// fetch the data of artists
 	artists, errGettingData := FetchData[[]models.Artist](config.API_ARTISTS_URL)
 	if errGettingData != nil {
@@ -34,9 +36,10 @@ func InitFetch() {
 			Dates:        dates.Dates,
 			Sources:      []string{artist.Locations, artist.ConcertDates, artist.Relations},
 		}
-		// append to our array where we save all the data 
+		// append to our array where we save all the data
 		pageData = append(pageData, *ModalData)
 	}
 	// put in the global variable the data
 	models.DataFetched = pageData
+	fmt.Println("✅ Done fetching artists data you can acces the link (:")
 }

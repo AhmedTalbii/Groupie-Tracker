@@ -1,0 +1,33 @@
+/* Basic styling for the dialog overlay */
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.4); /* semi-transparent dark background */
+}
+
+/* Dialog box */
+dialog.infoBox {
+  border: none;
+  border-radius: 8px;
+  padding: 0;
+  background: transparent; /* let the .modal style handle it */
+}
+
+/* Modal content box */
+.modal {
+  background: white;
+  padding: 20px 30px;
+  border-radius: 10px;
+  min-width: 300px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Close button */
+.modal button {
+  margin-top: 20px;
+  padding: 8px 16px;
+  border: none;
+  background-color: #333;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
