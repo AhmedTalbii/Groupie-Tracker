@@ -9,7 +9,7 @@ import (
 	"groupietracker/models"
 )
 
-func PageRender(w http.ResponseWriter, r *http.Request, path string, data models.PageDataArtists) {
+func PageRender(w http.ResponseWriter, r *http.Request, path string, data models.PageData) {
 	tmpl := template.Must(template.New("Layout").ParseFiles(
 		config.Layout+"layout.html",
 		config.Pages+path,

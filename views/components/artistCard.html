@@ -1,15 +1,13 @@
 {{define "ArtistCard"}}
-<a href="/">
-    <div class="artistCard" id="{{.Name}}">
-        <!-- date -->
-        <h3 class="date">{{.CreationDate}}</h3>
-        <!-- image -->
-        <img src="statics/assets/mockup.png" height="250px" class="mockup" alt="">
-        <img src="{{.Image}}" height="200px" class="imgContent" alt="">
-        <div class="informations">
-            <!-- name -->
-            <h3>{{.Name}}</h3>
-        </div>
+<div class="artistCard" id="{{.Name}}">
+    <!-- date -->
+    <h3 class="date">{{.CreationDate}}</h3>
+    <!-- image -->
+    <img src="statics/assets/mockup.png" height="250px" class="mockup" alt="">
+    <img src="{{.Image}}" height="200px" class="imgContent" alt="">
+    <div class="informations">
+        <!-- name -->
+        <h3>{{.Name}}</h3>
     </div>
-</a>
+</div>
 {{end}}

@@ -2,30 +2,36 @@ package fetchers
 
 import (
 	"encoding/json"
-	"groupietracker/models"
 	"io"
+	"log"
 	"net/http"
 )
 
-func FetchData(URL string) ([]models.Artist, error) {
-	// get data as res from url 
-	res, errGettingData := http.Get(URL)
-	if errGettingData != nil {
-		return nil, errGettingData
+func FetchData[T any](url string) (T, error) {
+	// get the response from url
+	res, errorGetingTheData := http.Get(url)
+	var zero T // we declare this so if we have an error cause
+	if errorGetingTheData != nil {
+		return zero, errorGetingTheData
 	}
-	// read the body of the res using io 
-	data, errIoInFetch := io.ReadAll(res.Body)
-	if errIoInFetch != nil {
-		return nil, errIoInFetch
-	}
-	// define artists 
-	var artists = []models.Artist{}
+	defer res.Body.Close()
 
-	// unmarchal data from json to array of artists witch we declare in models artists
-	errUnmarchal := json.Unmarshal(data, &artists)
-	if errUnmarchal != nil {
-		return nil, errUnmarchal
+	var data T
+	dataBytes, errorReadingTheResBody := io.ReadAll(res.Body)
+	if errorReadingTheResBody != nil {
+		return zero, errorReadingTheResBody
 	}
+	errorUnmarchal := json.Unmarshal(dataBytes, &data)
+	if errorUnmarchal != nil {
+		return zero, errorUnmarchal
+	}
+	return data, nil
+}
 
-	return artists, nil
+func MustFetch[T any](url string, name string) T {
+	data, err := FetchData[T](url)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return data
 }

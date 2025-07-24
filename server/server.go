@@ -9,16 +9,22 @@ import (
 )
 
 func StartServer() {
+	// fetch the data first
+	
+
+	// declare tha handler
 	mux := http.NewServeMux()
 	
 	// routes handle
 	routes.RoutesHandle(mux)
 
+	// server config
 	serv := &http.Server{
 		Addr: config.Port,
 		Handler: mux,
 	}
 
+	// print the url then start listening
 	fmt.Println("server started at http://localhost"+config.Port)
 	log.Fatal(serv.ListenAndServe())
 }
