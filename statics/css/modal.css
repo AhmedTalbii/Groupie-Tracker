@@ -5,3 +5,7 @@ dialog::backdrop { background: rgba(0, 0, 0, 0.4); }
 dialog .modal { background: white; padding: 20px 30px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); position: relative; }
 dialog .modal .close { position: sticky; background: none; border: none; outline: none; top: 0; left: 0; cursor: pointer; height: auto; width: auto; }
 dialog .modal .close .exit { margin: 5px; font-size: larger; color: rgb(105, 0, 0); }
+
+@media only screen and (max-width: 700px) {
+    dialog { border: none; border-radius: 8px; padding: 0; width: 90%; background: transparent; cursor: auto; }
+}
