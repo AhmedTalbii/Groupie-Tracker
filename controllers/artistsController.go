@@ -8,6 +8,10 @@ import (
 )
 
 func ArtistsController(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/" {
+		renderers.ErrorRendrer(w, r, http.StatusNotFound, " Page Not Found")
+		return
+	}
 	pageDataRender := models.PageData{
 		Artists: models.DataFetched,
 	}

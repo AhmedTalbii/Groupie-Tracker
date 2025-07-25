@@ -9,11 +9,6 @@
         <!-- name -->
         <h3>{{.Name}}</h3>
     </div>
-    <dialog class="infoBox" id="infoBox">
-        <div class="modal">
-            <h1>{{.Name}}</h1>
-            <button class="close">Close</button>
-        </div>
-    </dialog>
+    {{template "Modal" .}}
 </div>
 {{end}}

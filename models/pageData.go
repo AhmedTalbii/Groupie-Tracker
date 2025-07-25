@@ -4,19 +4,19 @@ type ArtistData struct {
 	Id           int
 	Image        string
 	Name         string
+	Members      []string
 	CreationDate int
 	FirstAlbum   string
-	Members      []string
-	Concerts     map[string][]string
+	LocationsUrl string
+	DatesUrl     string
+	RelationsUrl string
 	Locations    []string
 	Dates        []string
-	Sources      []string
+	Relations    map[string][]string
 }
 
 type PageData struct {
 	Artists []ArtistData
 }
 
-var (
-	DataFetched []ArtistData
-)
+var DataFetched []ArtistData

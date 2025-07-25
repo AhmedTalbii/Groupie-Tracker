@@ -28,7 +28,7 @@ func FetchData[T any](url string) (T, error) {
 	return data, nil
 }
 
-func MustFetch[T any](url string, name string) T {
+func MustFetch[T any](url string) T {
 	data, err := FetchData[T](url)
 	if err != nil {
 		log.Fatal(err)

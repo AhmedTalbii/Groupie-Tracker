@@ -1,7 +1,5 @@
 const cards = document.querySelectorAll(".artistCard");
 const searchInput = document.querySelector("#search");
-
-
 const parent = document.querySelector(".parent");
 const allCards = Array.from(document.querySelectorAll(".artistCard"));
 
@@ -19,10 +17,3 @@ function OnPressKeyBoard() {
         }
     });
 }
-
-cards.forEach(card =>
-    card.addEventListener("mouseenter", () => {
-        hoverSound.currentTime = 0;
-        hoverSound.play();
-    })
-);

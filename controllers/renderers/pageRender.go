@@ -6,10 +6,9 @@ import (
 	"text/template"
 
 	"groupietracker/config"
-	"groupietracker/models"
 )
 
-func PageRender(w http.ResponseWriter, r *http.Request, path string, data models.PageData) {
+func PageRender(w http.ResponseWriter, r *http.Request, path string, data any) {
 	tmpl := template.Must(template.New("Layout").ParseFiles(
 		config.Layout+"layout.html",
 		config.Pages+path,

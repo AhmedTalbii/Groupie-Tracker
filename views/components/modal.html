@@ -1,0 +1,60 @@
+{{define "Modal"}}
+<dialog class="infoBox" id="infoBox">
+    <div class="modal">
+        <button class="close"><i class="fa-solid fa-xmark exit"></i></button>
+
+        <div class="modal-header">
+            <h1 style="text-align: center;">{{.Name}}</h1>
+        </div>
+
+        <div class="modal-body">
+            <img src="{{.Image}}" alt="{{.Name}}" class="artist-image" style="display: block; margin: 0 auto; max-width: 100%; border-radius: 8px;" />
+
+            <h2 style="text-align: center; margin-top: 20px;">Members</h2>
+            <hr>
+            <p style="text-align: center;">{{range $index, $m := .Members}}{{if $index}}, {{end}}{{$m}}{{end}}</p>
+
+            <h2 style="text-align: center; margin-top: 20px;">Creation Date</h2>
+            <hr>
+            <p style="text-align: center;">{{.CreationDate}}</p>
+
+            <h2 style="text-align: center; margin-top: 20px;">First Album</h2>
+            <hr>
+            <p style="text-align: center;">{{.FirstAlbum}}</p>
+
+            <h2 style="text-align: center; margin-top: 20px;">Locations</h2>
+            <hr>
+            <div style="text-align: center;">
+                {{range .Locations}}
+                    <p>{{.}}</p>
+                {{end}}
+            </div>
+
+            <h2 style="text-align: center; margin-top: 20px;">Dates</h2>
+            <hr>
+            <div style="text-align: center;">
+                {{range .Dates}}
+                    <p>{{.}}</p>
+                {{end}}
+            </div>
+
+            <h2 style="text-align: center; margin-top: 20px;">Conserts</h2>
+            <hr>
+            <div style="text-align: center;">
+                {{range $city, $dates := .Relations}}
+                    <p><strong>{{$city}}:</strong> {{range $i, $d := $dates}}{{if $i}}, {{end}}{{$d}}{{end}}</p>
+                {{end}}
+            </div>
+
+            <h3 style="text-align: center; margin-top: 20px;">Sources</h3>
+            <hr>
+            <div style="text-align: center;">
+                <p>https://groupietrackers.herokuapp.com/api/artists/{{.Id}}</p>
+                <p>{{.LocationsUrl}}</p>
+                <p>{{.DatesUrl}}</p>
+                <p>{{.RelationsUrl}}</p>
+            </div>
+        </div>
+    </div>
+</dialog>
+{{end}}

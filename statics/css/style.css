@@ -116,18 +116,11 @@ a {
     font-style: normal;
     color: white;
 }
-/* body  */
 
 .artistCard:hover {
     box-shadow: 0px 5px 10px 5px #dbdbdbb2;
     transform: translateY(-15px);
     cursor: pointer;
-}
-
-.artistCard img {
-    border-radius: 50%;
-    animation: spin 5s linear infinite;
-    animation-play-state: running;
 }
 
 .artistCard:hover {
@@ -138,6 +131,9 @@ a {
 .artistCard .imgContent {
     grid-column: 1 / 5;
     grid-row: 1 / 1;
+    border-radius: 50%;
+    animation: spin 5s linear infinite;
+    animation-play-state: running;
 }
 
 .artistCard .date {
