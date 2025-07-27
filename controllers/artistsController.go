@@ -9,16 +9,20 @@ import (
 )
 
 func ArtistsController(w http.ResponseWriter, r *http.Request) {
+	if err := DdosPreventController(w, r); err != nil {
+		return
+	}
 	if r.URL.Path != "/" {
 		renderers.ErrorRendrer(w, r, http.StatusNotFound, " Page Not Found")
 		return
 	}
 
-	// Time to live check for Update 
+	// Time to live check for Update
 	fetchers.TimeToLiveFetch()
 
 	pageDataRender := models.PageData{
 		Artists: models.DataFetched,
 	}
+
 	renderers.PageRender(w, r, "index.html", pageDataRender)
 }

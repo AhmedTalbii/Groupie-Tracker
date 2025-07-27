@@ -42,7 +42,6 @@ type RelationsIndex struct {
 	Index []Relations `json:"index"`
 }
 
-
 // all data so that we can acces to all the data easly 
 type AllData struct {
 	Artists   []Artist
