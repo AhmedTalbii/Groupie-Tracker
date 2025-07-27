@@ -2,13 +2,16 @@ package fetchers
 
 import (
 	"fmt"
+	"time"
 
 	"groupietracker/config"
 	"groupietracker/models"
 )
 
 func InitFetch() {
-	fmt.Println("🔄 Fetching artist data... please wait")
+	if models.InitFetch {
+		fmt.Println("🔄 Fetching artist data... please wait")
+	}
 
 	var pageData []models.ArtistData
 
@@ -25,8 +28,8 @@ func InitFetch() {
 		Dates:     Dates,
 		Relations: Relations,
 	}
-	
-	// for loop for eatch artist 
+
+	// for loop for eatch artist
 	for i := 0; i < len(Artists); i++ {
 		Artist := &models.ArtistData{
 			Id:           AllData.Artists[i].Id,
@@ -47,5 +50,11 @@ func InitFetch() {
 
 	// put in the global variable the data
 	models.DataFetched = pageData
-	fmt.Println("✅ Done fetching artists data you can acces the link (:")
+
+	// update the last time that we fetch 
+	models.LastUpdateTime = time.Now()
+	if models.InitFetch {
+		fmt.Println("✅ Done fetching artists data you can acces the link (:")
+		models.InitFetch = false
+	}
 }
