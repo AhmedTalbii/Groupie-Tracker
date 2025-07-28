@@ -23,12 +23,12 @@ const (
 
 // Ttl
 const (
-	Ttl = 10 // in minuts 
+	Ttl = 1 // in minuts 
 )
 
 // DDOS Atack
 const (
-	RequestsNumbertToGetWarningOrBan = 2
+	RequestsNumbertToGetWarningOrBan = 20
 	TimeBetweenEatchReq = 4 // in secends
 	BannTime = 1 // in hours
 )

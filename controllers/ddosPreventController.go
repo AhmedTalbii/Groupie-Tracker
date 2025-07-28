@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
 	"strings"
 	"time"
@@ -24,10 +23,10 @@ func DdosPreventController(w http.ResponseWriter, r *http.Request) error {
 	if Exists && Client.Banned {
 		if time.Since(Client.LastTime) > config.BannTime*time.Hour {
 			// Ban expired — unban
-			Client.Banned = false
-			Client.Warning = false
 			Client.Requests = 0
 			Client.LastTime = time.Now()
+			Client.Warning = false
+			Client.Banned = false
 		} else {
 			// Still banned
 			w.WriteHeader(http.StatusTooManyRequests)
@@ -38,13 +37,13 @@ func DdosPreventController(w http.ResponseWriter, r *http.Request) error {
 
 	// if does not exist client set to 0
 	if !Exists {
-		fmt.Println(4)
-		models.Clients[ClientIp] = &models.Client{
+		Client = &models.Client{
 			Requests: 0,
 			LastTime: time.Now(),
 			Warning:  false,
 			Banned:   false,
 		}
+		models.Clients[ClientIp] = Client
 	}
 
 	// if time is less than time between addd 1 to the req else make it 0
@@ -56,24 +55,20 @@ func DdosPreventController(w http.ResponseWriter, r *http.Request) error {
 	Client.LastTime = time.Now()
 
 	// check if the client check the web site before
-	if models.Clients[ClientIp].Requests > config.RequestsNumbertToGetWarningOrBan { // if (N) of req > (RequestsNumbertToGetWarningOrBan) Show Error + return
+	if Client.Requests > config.RequestsNumbertToGetWarningOrBan { // if (N) of req > (RequestsNumbertToGetWarningOrBan) Show Error + return
 		if !Client.Warning && !Client.Banned {
-			fmt.Println(1)
-			models.Clients[ClientIp] = &models.Client{
-				Requests: 0,
-				LastTime: time.Now(),
-				Warning:  true,
-				Banned:   false,
-			}
+			Client.Banned = false
+			Client.Warning = true
+			Client.Requests = 0
 			w.WriteHeader(http.StatusTooManyRequests)
 			w.Write([]byte("429 Status Too Many Requests || Warning next you will be banned for 1 hour"))
 			return errors.New("429 Status Too Many Requests")
 		} else if Client.Warning && !Client.Banned {
 			Client.Banned = true
-            Client.Warning = false
-            Client.Requests = 0
+			Client.Warning = false
+			Client.Requests = 0
 			w.WriteHeader(http.StatusTooManyRequests)
-			w.Write([]byte("You Are banned for 1 hour"))
+			w.Write([]byte("You are banned for 1 hour"))
 			return errors.New("client is banned")
 		}
 	}
