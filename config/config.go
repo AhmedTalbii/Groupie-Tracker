@@ -23,7 +23,7 @@ const (
 
 // Ttl
 const (
-	Ttl = 1 // in minuts 
+	Ttl = 10 // in minuts 
 )
 
 // DDOS Atack
