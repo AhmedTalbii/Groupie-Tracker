@@ -36,6 +36,3 @@
     │   └── rendrers/
     │       └── render.go
     └── README.md
-
-    another test
-    another test2
