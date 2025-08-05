@@ -1,5 +1,4 @@
 ```
-
 .
 └── Groupie-Tracker/
     ├── config/
