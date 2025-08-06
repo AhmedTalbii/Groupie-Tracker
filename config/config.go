@@ -1,5 +1,10 @@
 package config
 
+// Port
+const (
+	Port = ":8080"
+)
+
 // Paths
 const (
 	Pages = "views/"

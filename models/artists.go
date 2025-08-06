@@ -2,10 +2,13 @@ package models
 
 // full artists data
 type FullArtistsData struct {
-	Artist
-	LOCATIONS
-	Relations
+	Artist    *Artist
+	Locations *Locations
+	Relations *Relations
+	Dates     *Dates
 }
+
+var Artists []Artist
 
 // artists
 type Artist struct {
@@ -21,21 +24,31 @@ type Artist struct {
 }
 
 // locations
-type LOCATIONS struct {
-	Index Ind `json:"index"`
+type Locations struct {
+	Index IndL `json:"index"`
 }
 
-type Ind []struct {
+type IndL []struct {
 	ID        int      `json:"id"`
 	Locations []string `json:"locations"`
 }
 
 // relations
 type Relations struct {
-	Index Index
+	Index IndR
 }
 
-type Index []struct {
+type IndR []struct {
 	ID             int                 `json:"id"`
 	DatesLocations map[string][]string `json:"datesLocations"`
+}
+
+// dates
+type Dates struct {
+	Index IndD
+}
+
+type IndD []struct {
+	ID    int      `json:"id"`
+	Dates []string `json:"dates"`
 }
