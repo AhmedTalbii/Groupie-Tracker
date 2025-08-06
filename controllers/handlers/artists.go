@@ -17,7 +17,9 @@ func ArtistsHandle(w http.ResponseWriter, r *http.Request) {
 	// fetch
 	artists := fetchers.FetchArtists()
 	// append all the artists to array of artists
-	models.Artists = append(models.Artists, *artists...)
+	models.Mu.Lock()
+	models.Artists = *artists
+	models.Mu.Unlock()
 	// render
-	rendrers.MustRender("artists", struct{ PageData []models.Artist }{PageData: models.Artists}, w)
+	rendrers.MustRender("artists", struct{ PageData []models.Artist }{PageData: *artists}, w)
 }

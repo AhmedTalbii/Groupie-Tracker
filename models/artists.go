@@ -1,5 +1,7 @@
 package models
 
+import "sync"
+
 // full artists data
 type FullArtistsData struct {
 	Artist    *Artist
@@ -8,7 +10,10 @@ type FullArtistsData struct {
 	Dates     *Dates
 }
 
-var Artists []Artist
+var (
+	Artists []Artist
+	Mu      *sync.Mutex
+)
 
 // artists
 type Artist struct {
