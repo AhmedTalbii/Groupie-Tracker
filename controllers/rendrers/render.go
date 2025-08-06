@@ -15,8 +15,8 @@ func RenderPage(Page string, Data any, w http.ResponseWriter) error {
 }
 
 // MustRender checks if the given render function is valid.
-func MustRender(f func(Page string, Data any, w http.ResponseWriter) error) {
-	if f != nil {
+func MustRender(Page string, Data any, w http.ResponseWriter) {
+	if RenderPage(Page, Data, w) != nil {
 		// 500 Internal server
 		return
 	}
