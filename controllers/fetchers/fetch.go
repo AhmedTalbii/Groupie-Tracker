@@ -5,6 +5,9 @@ import (
 	"net/http"
 )
 
+// sends HTTP GET request to URL,
+// decodes the JSON response into 'result',
+// and returns any error if exist.
 func Fetch(url string, result interface{}) error {
 	resp, err := http.Get(url)
 	if err != nil {
@@ -16,8 +19,9 @@ func Fetch(url string, result interface{}) error {
 	return err
 }
 
+// calls Fetch and silently returns on error,
 func MustFetch(url string, result interface{}) {
-	err := Fetch(url, result)
+	err := Fetch(url, &result)
 	if err != nil {
 		// 500 internal server
 		return
