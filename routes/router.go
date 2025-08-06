@@ -14,7 +14,7 @@ func RoutesHandle(mux *http.ServeMux) {
 		"/artists": handlers.ArtistsHandle,
 		"/artist":  handlers.ArtistHandle,
 		"/aboutUs": handlers.AboutUsHandle,
-		"/statics": handlers.StaticsHandle,
+		"/statics/": handlers.StaticsHandle,
 	}
 	// for range to handle the routs
 	for path, handler := range Routes {

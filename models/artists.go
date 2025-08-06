@@ -12,7 +12,7 @@ type FullArtistsData struct {
 
 var (
 	Artists []Artist
-	Mu      *sync.Mutex
+	Mu      sync.Mutex
 )
 
 // artists

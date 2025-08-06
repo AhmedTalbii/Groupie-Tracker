@@ -6,7 +6,8 @@ import (
 	"groupie-tracker/controllers/rendrers"
 )
 
-// Handle the main page
+// serves the homepage by validating the request path and method,
+// then rendering the "index" template if it's a valid GET request to "/".
 func HomeHandle(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
 		// 404 Page Not Found
@@ -16,7 +17,5 @@ func HomeHandle(w http.ResponseWriter, r *http.Request) {
 		// 405 method not allowd
 		return
 	}
-	// render
-
 	rendrers.MustRender("index", nil, w)
 }
