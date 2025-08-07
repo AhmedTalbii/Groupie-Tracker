@@ -1,0 +1,31 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+nav {
+    background-color: rgba(0, 0, 0, 0.8);
+    position: fixed;
+    height: 80px;
+    width: 100vw;
+}
+
+nav img {
+    width: 130px;
+}
+
+.container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100vw;
+    gap: 20px;
+    box-sizing: border-box;
+    padding: 20px 0;
+    background-image: linear-gradient(to right top, #ff000b, #cc0016, #990017, #670012, #390003);
+
+}
+.artistscontainer {
+   
+}

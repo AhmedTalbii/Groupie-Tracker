@@ -3,7 +3,9 @@ package handlers
 import (
 	"net/http"
 
+	"groupie-tracker/controllers/fetchers"
 	"groupie-tracker/controllers/rendrers"
+	"groupie-tracker/models"
 )
 
 // serves the homepage by validating the request path and method,
@@ -18,4 +20,13 @@ func HomeHandle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	rendrers.MustRender("index", nil, w)
+	rendrers.InitRender(w, nil)
+	
+	if len(models.Artists) == 0 {
+		models.Mu.Lock()
+		models.Artists = *fetchers.FetchArtists()
+		models.Mu.Unlock()
+	}
+	
+	rendrers.MustRender("artists", struct{ PageData []models.Artist }{PageData: models.Artists}, w)
 }

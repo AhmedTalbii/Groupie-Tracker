@@ -15,8 +15,13 @@ func ArtistsHandle(w http.ResponseWriter, r *http.Request) {
 		// 405 method not allowd
 		return
 	}
-	models.Mu.Lock()
-	models.Artists = *fetchers.FetchArtists()
-	models.Mu.Unlock()
-	rendrers.MustRender("artists", struct{ PageData []models.Artist }{PageData: models.Artists}, w)
+	if len(models.Artists) == 0 {
+		models.Mu.Lock()
+		models.Artists = *fetchers.FetchArtists()
+		models.Mu.Unlock()
+	}
+
+	if err := rendrers.InitRender(w, models.Artists); err != nil {
+		return
+	}
 }

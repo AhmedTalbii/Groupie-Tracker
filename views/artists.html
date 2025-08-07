@@ -3,14 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>GT</title>
+    <link rel="stylesheet" href="/statics/css/artists.css">
 </head>
 <body>
+
+    <nav>
+         <a href="/"><img src="/statics/assets/Logo.png" alt=""></a>
+    </nav>
     
+    <div class="container">
         {{range .PageData}}
-            <h1>{{.Name}}</h1><br><br>
+            <!-- <h1>{{.Name}}</h1><br><br> -->
             <img src="{{.Image}}" alt="">
         {{end}}
+    </div>
 
 </body>
 </html>
