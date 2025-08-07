@@ -5,10 +5,10 @@ import (
 	"os"
 )
 
-// Serve the statics css files + every asset
+// serves static files if the path is valid and not a directory,
+// otherwise returns forbidden or server errors.
 func StaticsHandle(w http.ResponseWriter, r *http.Request) {
-	// if directory acces forbidden
-	info, err := os.Stat(r.URL.Path)
+	info, err := os.Stat(r.URL.Path[1:])
 	if err != nil {
 		// 500 intrnal server
 		return

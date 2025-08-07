@@ -10,13 +10,14 @@ import (
 	"groupie-tracker/models"
 )
 
-// func that fetch and render all the artist
+// processes GET requests by extracting the artist ID from the URL,
+// validating it, fetching related data (locations, dates, relations),
+// and rendering the artist detail page using the combined data.
 func ArtistHandle(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
 		// 405 method not allowd
 		return
 	}
-	// id from url
 	Url := strings.Split(r.URL.Path, "/")
 	Id := Url[len(Url)-1]
 	idInt, err := strconv.Atoi(Id)
@@ -25,14 +26,11 @@ func ArtistHandle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// define full data
 	fullData := &models.FullArtistsData{
 		Artist:    &models.Artists[idInt-1],
 		Locations: fetchers.FetchLocaion(Id),
 		Dates:     fetchers.FetchDates(Id),
 		Relations: fetchers.FetchRelation(Id),
 	}
-
-	// render
 	rendrers.MustRender("arist", fullData, w)
 }

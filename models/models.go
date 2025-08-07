@@ -1,6 +1,8 @@
 package models
 
-import "sync"
+import (
+	"sync"
+)
 
 // full artists data
 type FullArtistsData struct {
@@ -12,7 +14,7 @@ type FullArtistsData struct {
 
 var (
 	Artists []Artist
-	Mu      *sync.Mutex
+	Mu      sync.Mutex
 )
 
 // artists
