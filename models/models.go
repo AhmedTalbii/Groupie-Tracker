@@ -20,7 +20,7 @@ var (
 
 // artists
 type Artist struct {
-	Id           int   `json:"id"`
+	Id           int      `json:"id"`
 	Image        string   `json:"image"`
 	Name         string   `json:"name"`
 	Members      []string `json:"members"`
@@ -61,5 +61,10 @@ type IndD []struct {
 	Dates []string `json:"dates"`
 }
 
-
 var Templat *template.Template
+
+// error page
+type Data struct {
+	StatusE string
+	Error  string
+}

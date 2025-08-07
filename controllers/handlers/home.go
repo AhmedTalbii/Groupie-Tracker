@@ -10,23 +10,40 @@ import (
 	"groupie-tracker/models"
 )
 
-// serves the homepage by validating the request path and method,
+// serves the homepage by validating the request path, connection and method,
 // then rendering the "index" template if it's a valid GET request to "/".
+// fetch artists data before moving to the next page
 func HomeHandle(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
-		// 404 Page Not Found
+		rendrers.ErrorPage(models.Data{Error: "Page Not Found", StatusE: "404"}, w, http.StatusNotFound)
 		return
 	}
 	if r.Method != http.MethodGet {
-		// 405 method not allowd
+		rendrers.ErrorPage(models.Data{Error: "Method Not Allowed", StatusE: "405"}, w, http.StatusMethodNotAllowed)
+		return
+	}
+	var err error
+
+	_, err = http.Get("https://www.google.com")
+	if err != nil {
+		rendrers.ErrorPage(models.Data{Error: "Connection Error", StatusE: "500"}, w, http.StatusInternalServerError)
 		return
 	}
 	rendrers.MustRender("index", nil, w)
 
 	if len(models.Artists) == 0 {
 		models.Mu.Lock()
-		models.Artists = *fetchers.FetchArtists()
-		models.Templat = template.Must(template.ParseFiles(config.Pages + "artists.html"))
-		models.Mu.Unlock()
+		defer models.Mu.Unlock()
+
+		models.Artists = *fetchers.FetchArtists(w)
+		if len(models.Artists) == 0 {
+			rendrers.ErrorPage(models.Data{Error: "Error Internal Server", StatusE: "500"}, w, http.StatusInternalServerError)
+			return
+		}
+		models.Templat, err = template.ParseFiles(config.Pages + "artists.html")
+		if err != nil {
+			rendrers.ErrorPage(models.Data{Error: "Error Internal Server", StatusE: "500"}, w, http.StatusInternalServerError)
+			return
+		}
 	}
 }

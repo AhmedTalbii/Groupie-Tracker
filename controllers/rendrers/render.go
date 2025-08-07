@@ -5,6 +5,8 @@ import (
 	"net/http"
 
 	"groupie-tracker/config"
+
+	"groupie-tracker/models"
 )
 
 // RenderPage renders a single HTML page with given data.
@@ -16,5 +18,9 @@ func RenderPage(Page string, Data any, w http.ResponseWriter) error {
 
 // MustRender checks if the given render function is valid.
 func MustRender(Page string, Data any, w http.ResponseWriter) {
-	RenderPage(Page, Data, w)
+	err := RenderPage(Page, Data, w)
+	if err != nil {
+		ErrorPage(models.Data{Error: "Error Internal Server", StatusE: "500"}, w, http.StatusInternalServerError)
+		return
+	}
 }
