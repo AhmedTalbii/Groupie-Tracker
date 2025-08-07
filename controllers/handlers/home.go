@@ -1,8 +1,10 @@
 package handlers
 
 import (
+	"html/template"
 	"net/http"
 
+	"groupie-tracker/config"
 	"groupie-tracker/controllers/fetchers"
 	"groupie-tracker/controllers/rendrers"
 	"groupie-tracker/models"
@@ -20,13 +22,11 @@ func HomeHandle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	rendrers.MustRender("index", nil, w)
-	rendrers.InitRender(w, nil)
-	
+
 	if len(models.Artists) == 0 {
 		models.Mu.Lock()
 		models.Artists = *fetchers.FetchArtists()
+		models.Templat = template.Must(template.ParseFiles(config.Pages + "artists.html"))
 		models.Mu.Unlock()
 	}
-	
-	rendrers.MustRender("artists", struct{ PageData []models.Artist }{PageData: models.Artists}, w)
 }

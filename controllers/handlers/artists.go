@@ -1,10 +1,11 @@
 package handlers
 
 import (
+	"html/template"
 	"net/http"
 
+	"groupie-tracker/config"
 	"groupie-tracker/controllers/fetchers"
-	"groupie-tracker/controllers/rendrers"
 	"groupie-tracker/models"
 )
 
@@ -15,13 +16,13 @@ func ArtistsHandle(w http.ResponseWriter, r *http.Request) {
 		// 405 method not allowd
 		return
 	}
+
 	if len(models.Artists) == 0 {
 		models.Mu.Lock()
 		models.Artists = *fetchers.FetchArtists()
+		models.Templat = template.Must(template.ParseFiles(config.Pages + "artists.html"))
 		models.Mu.Unlock()
 	}
 
-	if err := rendrers.InitRender(w, models.Artists); err != nil {
-		return
-	}
+	models.Templat.Execute(w, struct{ PageData []models.Artist }{PageData: models.Artists})
 }

@@ -1,31 +1,137 @@
-* {
+@import url('https://fonts.googleapis.com/css2?family=Michroma&display=swap');
+
+body {
+    background-image: linear-gradient(to bottom, #690101, #7a0003, #8b0003, #9d0002, #af0000);
     margin: 0;
     padding: 0;
+    width: 100%;
     box-sizing: border-box;
+    animation: fade-in 0.2s ease-in;
 }
 
 nav {
-    background-color: rgba(0, 0, 0, 0.8);
     position: fixed;
-    height: 80px;
-    width: 100vw;
+    z-index: 50;
+    height: 100px;
+    width: 97%;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%);
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    background: rgba(255, 255, 255, 0.17);
+    border-bottom-left-radius: 60px;
+    border-bottom-right-radius: 60px;
+    box-shadow: 0 0px 30px rgba(156, 156, 156, 0.1);
+    backdrop-filter: blur(5px);
+    outline: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 nav img {
-    width: 130px;
+    width: 200px;
 }
 
-.container{
+/* ---------------- */
+.parent {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    width: 100vw;
-    gap: 20px;
-    box-sizing: border-box;
-    padding: 20px 0;
-    background-image: linear-gradient(to right top, #ff000b, #cc0016, #990017, #670012, #390003);
-
+    align-items: stretch;
+    border-radius: 10px;
+    padding: 10px;
+    gap: 30px;
+    margin-top: 7%;
 }
-.artistscontainer {
-   
+
+.artistCard {
+    display: grid;
+    position: relative;
+    width: 400px;
+    background: rgba(255, 255, 255, 0.17);
+    border-radius: 16px;
+    box-shadow: 0 0px 30px rgba(156, 156, 156, 0.1);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 20px;
+    place-items: center;
+    grid-template-columns: repeat(5, auto);
+    box-shadow: 0px 2px 10px 5px #dbdbdb3d;
+    font-family: 'Michroma', sans-serif;
+    color: white;
+    transition: all 0.5s;
+}
+
+.artistCard:hover {
+    box-shadow: 0px 5px 10px 5px #dbdbdbb2;
+    transform: translateY(-15px);
+    cursor: pointer;
+}
+
+.artistCard .mockup,
+.artistCard .imgContent {
+    grid-column: 1 / 5;
+    grid-row: 1 / 1;
+    border-radius: 50%;
+    animation: spin 5s linear infinite;
+    animation-play-state: running;
+}
+
+.artistCard .date {
+    position: absolute;
+    grid-column: 4 / 5;
+    grid-row: 1 / 1;
+    z-index: 99;
+    font-size: 13px;
+    top: -22px;
+    right: -5px;
+}
+
+.artistCard .informations {
+    grid-column: 1 / 5;
+    grid-row: 2 / 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    transition: 0.5s all;
+}
+
+.artistCard .informations:hover {
+    text-shadow: 0px 0px 20px rgb(3, 3, 3);
+}
+
+
+
+/* -------------------- */
+
+@media only screen and (max-width: 1200px) {
+    .parent {
+        margin-top: 20%;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .parent {
+        margin-top: 30%;
+    }
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 100;
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }

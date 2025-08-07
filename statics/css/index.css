@@ -14,6 +14,8 @@ body {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    overflow: hidden;
+    animation: fade-in 0.5s ease-in;
 }
 
 .text {
@@ -52,6 +54,7 @@ body {
 span {
     color: rgb(209, 0, 0);
 }
+
 /* shape the picture */
 .tag {
     filter: drop-shadow(0px 0px 50px rgba(151, 151, 151, 0.5));
@@ -112,18 +115,18 @@ button {
     font-weight: bold;
     border: none;
     border-radius: 12px;
-    background-color:  rgb(209, 0, 0);
+    background-color: rgb(209, 0, 0);
     color: #ffffff;
     cursor: pointer;
     transition: transform 0.2s ease, background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 button:hover {
-    background-color:  rgb(255, 49, 49);
+    background-color: rgb(255, 49, 49);
     transform: scale(1.05);
 }
 
-.buttons{
+.buttons {
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -154,4 +157,94 @@ button:hover {
 
 .Il {
     bottom: 41%;
+}
+
+@media only screen and (max-width: 1500px) {
+    body {
+        flex-direction: column;
+        overflow: auto;
+    }
+
+    nav {
+        position: fixed;
+        height: 200px;
+        top: 0;
+        left: 10px;
+    }
+
+    nav img {
+        width: 150px;
+    }
+
+    .containerText {
+        padding: 20%;
+    }
+
+    .text {
+        font-size: 3rem;
+    }
+
+    .subtitle {
+        font-size: 2rem;
+    }
+
+    .tag {
+        width: 300px;
+        height: 350px;
+    }
+
+    .skeleton {
+        height: 300px;
+    }
+
+    .shape {
+        width: 300px;
+        height: 300px;
+        position: fixed;
+        bottom: 20px;
+    }
+
+}
+
+@media only screen and (max-width: 500px) {
+
+    .containerText {
+        padding: 5%;
+    }
+
+    .text {
+        font-size: 2rem;
+    }
+
+    .subtitle {
+        font-size: 1rem;
+    }
+
+    .tag {
+        width: 200px;
+        height: 250px;
+    }
+
+    .skeleton {
+        height: 200px;
+    }
+
+    .shape {
+        width: 200px;
+        height: 200px;
+        position: fixed;
+        bottom: 20px;
+    }
+
+}
+
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 100;
+    }
 }

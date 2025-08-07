@@ -32,5 +32,5 @@ func ArtistHandle(w http.ResponseWriter, r *http.Request) {
 		Dates:     fetchers.FetchDates(Id),
 		Relations: fetchers.FetchRelation(Id),
 	}
-	rendrers.MustRender("arist", fullData, w)
+	rendrers.MustRender("artist", fullData, w)
 }

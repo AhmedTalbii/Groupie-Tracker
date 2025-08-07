@@ -1,23 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GT</title>
     <link rel="stylesheet" href="/statics/css/artists.css">
 </head>
+
 <body>
+    <div class="glass">
 
-    <nav>
-         <a href="/"><img src="/statics/assets/Logo.png" alt=""></a>
-    </nav>
-    
-    <div class="container">
-        {{range .PageData}}
-            <!-- <h1>{{.Name}}</h1><br><br> -->
-            <img src="{{.Image}}" alt="">
-        {{end}}
+        <nav>
+            <a href="/"><img src="/statics/assets/Logo.png" alt=""></a>
+        </nav>
+
+        <div class="parent">
+            {{range .PageData}}
+            <a href="/artist/{{.Id}}">
+                <!-- <h1>{{.Name}}</h1><br><br> -->
+                <div class="artistCard" id="{{.Name}}">
+                    <!-- date -->
+                    <h3 class="date">{{.CreationDate}}</h3>
+                    <!-- image -->
+                    <img src="statics/assets/mockup.png" height="250px" class="mockup" alt="">
+                    <img src="{{.Image}}" height="200px" class="imgContent" alt="">
+                    <div class="informations">
+                        <!-- name -->
+                        <h3>{{.Name}}</h3>
+                    </div>
+                </div>
+            </a>
+            {{end}}
+        </div>
     </div>
-
 </body>
+
 </html>
