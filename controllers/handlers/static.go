@@ -4,8 +4,7 @@ import (
 	"net/http"
 	"os"
 
-	"groupie-tracker/controllers/rendrers"
-	"groupie-tracker/models"
+	"groupie-tracker/helpers"
 )
 
 // serves static files if the path is valid and not a directory,
@@ -13,11 +12,11 @@ import (
 func StaticsHandle(w http.ResponseWriter, r *http.Request) {
 	info, err := os.Stat(r.URL.Path[1:])
 	if err != nil {
-		rendrers.ErrorPage(models.Data{Error: "Page Not Found",StatusE: "404"},w,http.StatusNotFound)
+		helpers.Help.ErrorPage(w, http.StatusNotFound)
 		return
 	}
 	if info.IsDir() {
-		rendrers.ErrorPage(models.Data{Error: "Error Forbidden", StatusE: "403"}, w, http.StatusForbidden)
+		helpers.Help.ErrorPage(w, http.StatusForbidden)
 		return
 	}
 	http.ServeFile(w, r, r.URL.Path[1:])

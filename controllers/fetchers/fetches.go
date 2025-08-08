@@ -2,6 +2,7 @@ package fetchers
 
 import (
 	"groupie-tracker/config"
+	"groupie-tracker/helpers"
 	"groupie-tracker/models"
 )
 
@@ -9,7 +10,7 @@ import (
 // returns a slice of Artist models.
 func FetchArtists() *[]models.Artist {
 	var artists []models.Artist
-	MustFetch(config.ArtistURL, &artists)
+	helpers.Help.Fetch(config.ArtistURL, &artists)
 	return &artists
 }
 
@@ -17,7 +18,7 @@ func FetchArtists() *[]models.Artist {
 // returns a LOCATIONS model.
 func FetchLocaion(id string) *models.Locations {
 	var location models.Locations
-	MustFetch(config.LocationURL+id, &location)
+	helpers.Help.Fetch(config.LocationURL+id, &location)
 	return &location
 }
 
@@ -25,7 +26,7 @@ func FetchLocaion(id string) *models.Locations {
 // returns a Relations model.
 func FetchRelation(id string) *models.Relations {
 	var relation models.Relations
-	MustFetch(config.RelationsURL+id, &relation)
+	helpers.Help.Fetch(config.RelationsURL+id, &relation)
 	return &relation
 }
 
@@ -33,6 +34,6 @@ func FetchRelation(id string) *models.Relations {
 // returns a Dates model.
 func FetchDates(id string) *models.Dates {
 	var dates models.Dates
-	MustFetch(config.DatesURL+id, &dates)
+	helpers.Help.Fetch(config.DatesURL+id, &dates)
 	return &dates
 }

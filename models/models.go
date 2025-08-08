@@ -52,7 +52,3 @@ type Dates struct {
 var Templat *template.Template
 
 // error page
-type Data struct {
-	StatusE string
-	Error  string
-}
