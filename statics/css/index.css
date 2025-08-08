@@ -15,7 +15,7 @@ body {
     justify-content: space-around;
     align-items: center;
     overflow: hidden;
-    animation: fade-in 0.5s ease-in;
+    animation: fade-in 0.2s ease-in;
 }
 
 .text {

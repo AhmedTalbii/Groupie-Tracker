@@ -1,6 +1,7 @@
 package rendrers
 
 import (
+	"bytes"
 	"html/template"
 	"log"
 	"net/http"
@@ -16,10 +17,15 @@ func ErrorPage(data models.Data, w http.ResponseWriter, status int) {
 		log.Println(err)
 		return
 	}
-	w.WriteHeader(status)
-	errExec := tmp.Execute(w, data)
+	var buf bytes.Buffer
+	
+	errExec := tmp.Execute(&buf, data)
 	if errExec != nil {
-		http.Error(w, "500 Internal Server Error", http.StatusInternalServerError)
-		log.Println(errExec)
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("500 Internal Server Error"))
+		return
 	}
+
+	w.WriteHeader(status)
+	tmp.Execute(w, data)
 }

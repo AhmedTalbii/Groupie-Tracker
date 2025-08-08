@@ -1,10 +1,12 @@
 package handlers
 
 import (
+	"html/template"
 	"net/http"
 	"strconv"
 	"strings"
 
+	"groupie-tracker/config"
 	"groupie-tracker/controllers/fetchers"
 	"groupie-tracker/controllers/rendrers"
 	"groupie-tracker/models"
@@ -21,6 +23,14 @@ func ArtistHandle(w http.ResponseWriter, r *http.Request) {
 	Url := strings.Split(r.URL.Path, "/")
 	Id := Url[len(Url)-1]
 	idInt, err := strconv.Atoi(Id)
+
+	if len(models.Artists) == 0 {
+		models.Mu.Lock()
+		models.Artists = *fetchers.FetchArtists()
+		models.Templat = template.Must(template.ParseFiles(config.Pages + "artists.html"))
+		models.Mu.Unlock()
+	}
+
 	if err != nil || idInt > len(models.Artists) || idInt <= 0 {
 		rendrers.ErrorPage(models.Data{Error: "Page Not Found", StatusE: "404"}, w, http.StatusNotFound)
 		return
@@ -28,9 +38,9 @@ func ArtistHandle(w http.ResponseWriter, r *http.Request) {
 
 	fullData := &models.FullArtistsData{
 		Artist:    &models.Artists[idInt-1],
-		Locations: fetchers.FetchLocaion(Id, w),
-		Dates:     fetchers.FetchDates(Id, w),
-		Relations: fetchers.FetchRelation(Id, w),
+		Locations: fetchers.FetchLocaion(Id),
+		Dates:     fetchers.FetchDates(Id),
+		Relations: fetchers.FetchRelation(Id),
 	}
 	rendrers.MustRender("artist", fullData, w)
 }

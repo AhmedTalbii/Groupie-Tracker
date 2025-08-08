@@ -35,7 +35,7 @@ func HomeHandle(w http.ResponseWriter, r *http.Request) {
 		models.Mu.Lock()
 		defer models.Mu.Unlock()
 
-		models.Artists = *fetchers.FetchArtists(w)
+		models.Artists = *fetchers.FetchArtists()
 		if len(models.Artists) == 0 {
 			rendrers.ErrorPage(models.Data{Error: "Error Internal Server", StatusE: "500"}, w, http.StatusInternalServerError)
 			return

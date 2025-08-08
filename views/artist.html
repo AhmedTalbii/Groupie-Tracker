@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artist</title>
+    <link rel="stylesheet" href="/statics/css/artist.css">
+</head>
+
+<body>
+    <div class="c">
+        <div class="l">
+            <img src="{{.Artist.Image}}" alt="Artist Image">
+            <h1>{{.Artist.Name}}</h1>
+            <hr>
+            <h2>Members:</h2>
+            <ul>
+                {{range .Artist.Members}}
+                <li>{{.}}</li>
+                {{end}}
+            </ul>
+            <hr>
+            <h2>Creation Date: {{.Artist.CreationDate}}</h2>
+            <h2>First Album: {{.Artist.FirstAlbum}}</h2>
+        </div>
+        <div class="d"></div>
+        <div class="r">
+            <h1>Concerts</h1>
+            <hr>
+            {{range $location, $dates := .Relations.DatesLocations}}
+            <div>- {{$location}} :
+                {{range $dates}}{{.}}, {{end}}
+            </div>
+            {{end}}
+            <hr>
+            <h1>Locations</h1>
+            <hr>
+            {{range .Locations.Locations}}
+            - {{.}}
+            {{end}}
+            <hr>
+            <h1>Dates</h1>
+            <hr>
+            <div class="dates">
+                {{range $dates := .Dates.Dates}}
+                <span>{{.}}</span>
+                {{end}}
+            </div>
+            <hr>
+            <h1>Resources</h1>
+            <hr>
+            <h3>- https://groupietrackers.herokuapp.com/api/artists/{{.Artist.Id}}</h3> <br>
+            <h3>- {{.Artist.Locations}}</h3> <br>
+            <h3>- {{.Artist.ConcertDates}}</h3> <br>
+            <h3>- {{.Artist.Relations}}</h3> <br>
+        </div>
+    </div>
+</body>
+
+</html>

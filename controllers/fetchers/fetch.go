@@ -8,7 +8,7 @@ import (
 // sends HTTP GET request to URL,
 // decodes the JSON response into 'result',
 // and returns any error if exist.
-func Fetch(url string, result interface{}, w http.ResponseWriter) error {
+func Fetch(url string, result interface{}) error {
 	resp, err := http.Get(url)
 	if err != nil {
 		return err
@@ -20,8 +20,8 @@ func Fetch(url string, result interface{}, w http.ResponseWriter) error {
 }
 
 // calls Fetch and silently returns on error,
-func MustFetch(url string, result interface{}, w http.ResponseWriter) {
-	err := Fetch(url, &result, w)
+func MustFetch(url string, result interface{}) {
+	err := Fetch(url, &result)
 	if err != nil {
 		return
 	}
