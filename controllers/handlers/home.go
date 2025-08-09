@@ -1,11 +1,8 @@
 package handlers
 
 import (
-	"html/template"
 	"net/http"
 
-	"groupie-tracker/config"
-	"groupie-tracker/controllers/fetchers"
 	"groupie-tracker/helpers"
 	"groupie-tracker/models"
 )
@@ -22,24 +19,6 @@ func HomeHandle(w http.ResponseWriter, r *http.Request) {
 		helpers.Help.ErrorPage(w, http.StatusMethodNotAllowed)
 		return
 	}
-	var err error
 
-	_, err = http.Get("https://www.google.com")
-	if err != nil {
-		helpers.Help.ErrorPage(w, http.StatusInternalServerError)
-		return
-	}
-
-	helpers.Help.RenderPage(config.Pages+"index", nil, w)
-
-	if len(models.Artists) == 0 {
-		models.Mu.Lock()
-		models.Artists = *fetchers.FetchArtists()
-		models.Templat, err = template.ParseFiles(config.Pages + "artists.html")
-		models.Mu.Unlock()
-		if err != nil {
-			helpers.Help.ErrorPage(w, http.StatusInternalServerError)
-			return
-		}
-	}
+	w.Write(models.HomeTemplate.Bytes())
 }

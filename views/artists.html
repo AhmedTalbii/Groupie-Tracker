@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GT</title>
     <link rel="stylesheet" href="/statics/css/artists.css">
+    <link rel="stylesheet" href="/statics/css/artist.css">
 </head>
 
 <body>
@@ -16,17 +17,76 @@
         </nav>
 
         <div class="parent">
-            {{range .PageData}}
-            <a href="/artist/{{.Id}}">
-                <!-- <h1>{{.Name}}</h1><br><br> -->
+            {{range .Artists}}
+            <!-- Modal -->
+            <div class="modal" id="artist{{.Id}}">
+                <div class="modal-content">
+                    <!-- Close button goes back to page without hash -->
+                    <a href="#" class="close-btn">&times;</a>
+
+                    <div class="artist-header">
+                        <img src="{{.Image}}" alt="{{.Name}}" class="artist-image">
+                        <h2>{{.Name}}</h2>
+                    </div>
+
+                    <div class="artist-details">
+                        <p><strong>Creation Date:</strong> {{.CreationDate}}</p>
+                        <p><strong>First Album:</strong> {{.FirstAlbum}}</p>
+
+                        <div>
+                            <strong>Members:</strong>
+                            <ul>
+                                {{range .Members}}
+                                <li>{{.}}</li>
+                                {{end}}
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <strong>Concert Dates:</strong>
+                            <ul>
+                                {{range .Dates}}
+                                <li>{{.}}</li>
+                                {{end}}
+                            </ul>
+                        </div>
+
+                        <div>
+                            <strong>Locations:</strong>
+                            <ul>
+                                {{range .Locations}}
+                                <li>{{.}}</li>
+                                {{end}}
+                            </ul>
+                        </div>
+
+                        <div>
+                            <strong>Dates:</strong>
+                            <ul>
+                                {{range .Dates}}
+                                <li>{{.}}</li>
+                                {{end}}
+                            </ul>
+                        </div>
+
+                    </div>
+
+                    <div class="artist-links">
+                        <a href="{{.ArtistURL}}" target="_blank">Artist Page</a> |
+                        <a href="{{.RelationsURL}}" target="_blank">Relations</a> |
+                        <a href="{{.LocationsURL}}" target="_blank">Locations</a> |
+                        <a href="{{.DatesURL}}" target="_blank">Dates</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trigger -->
+            <a href="#artist{{.Id}}">
                 <div class="artistCard" id="{{.Name}}">
-                    <!-- date -->
                     <h3 class="date">{{.CreationDate}}</h3>
-                    <!-- image -->
                     <img src="statics/assets/mockup.png" height="250px" class="mockup" alt="">
                     <img src="{{.Image}}" height="200px" class="imgContent" alt="">
                     <div class="informations">
-                        <!-- name -->
                         <h3>{{.Name}}</h3>
                     </div>
                 </div>

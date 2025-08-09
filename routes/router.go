@@ -12,7 +12,6 @@ func RoutesHandle(mux *http.ServeMux) {
 	Routes := map[string]func(http.ResponseWriter, *http.Request){
 		"/":         handlers.HomeHandle,
 		"/artists":  handlers.ArtistsHandle,
-		"/artist/":  handlers.ArtistHandle,
 		"/statics/": handlers.StaticsHandle,
 	}
 	// for range to handle the routs

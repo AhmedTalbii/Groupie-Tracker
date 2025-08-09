@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"groupie-tracker/config"
+	"groupie-tracker/controllers/fetchers"
 	"groupie-tracker/routes"
 )
 
@@ -13,6 +14,8 @@ import (
 // configuring the server with the specified port and handler,
 // then starts listening and serving requests.
 func StartServer() {
+	fetchers.InitFetch()
+
 	mux := http.NewServeMux()
 	routes.RoutesHandle(mux)
 	serv := &http.Server{

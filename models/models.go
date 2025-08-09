@@ -1,21 +1,9 @@
 package models
 
 import (
-	"html/template"
+	"bytes"
 	"sync"
-)
-
-// full artists data
-type FullArtistsData struct {
-	Artist    *Artist
-	Locations *Locations
-	Relations *Relations
-	Dates     *Dates
-}
-
-var (
-	Artists []Artist
-	Mu      sync.Mutex
+	"time"
 )
 
 // artists
@@ -26,29 +14,74 @@ type Artist struct {
 	Members      []string `json:"members"`
 	CreationDate int      `json:"creationDate"`
 	FirstAlbum   string   `json:"firstAlbum"`
-	Locations    string   `json:"locations"`
-	ConcertDates string   `json:"concertDates"`
-	Relations    string   `json:"relations"`
+	LocationsUrl string   `json:"locations"`
+	DatesUrl     string   `json:"concertDates"`
+	RelationsUrl string   `json:"relations"`
 }
 
-// locations
 type Locations struct {
-	ID        int      `json:"id"`
+	Id        int      `json:"id"`
 	Locations []string `json:"locations"`
+	Dates     string   `json:"dates"`
 }
 
-// relations
-type Relations struct {
-	ID             int                 `json:"id"`
-	DatesLocations map[string][]string `json:"datesLocations"`
-}
-
-// dates
 type Dates struct {
-	ID    int      `json:"id"`
+	Id    int      `json:"id"`
 	Dates []string `json:"dates"`
 }
 
-var Templat *template.Template
+type Relations struct {
+	Id             int                 `json:"id"`
+	DatesLocations map[string][]string `json:"datesLocations"`
+}
 
-// error page
+// thoes struct cause somme apis have index witch is array thats whhy we make them
+type LocationsIndex struct {
+	Index []Locations `json:"index"`
+}
+
+type DatesIndex struct {
+	Index []Dates `json:"index"`
+}
+
+type RelationsIndex struct {
+	Index []Relations `json:"index"`
+}
+
+// all data so that we can acces to all the data easly
+type AllData struct {
+	Artists   []Artist
+	Locations LocationsIndex
+	Dates     DatesIndex
+	Relations RelationsIndex
+}
+
+type ArtistAllData struct {
+	Id           int
+	Image        string
+	Name         string
+	Members      []string
+	CreationDate int
+	FirstAlbum   string
+	Relations    map[string][]string
+	Locations    []string
+	Dates        []string
+	ArtistURL    string
+	RelationsURL string
+	LocationsURL string
+	DatesURL     string
+}
+
+var ArtistsFullData []ArtistAllData
+
+// Templates
+var (
+	HomeTemplate    bytes.Buffer
+	ArtistsTemplate bytes.Buffer
+)
+
+// ttl
+var (
+	Mu            sync.Mutex
+	LastTimeFetch time.Time
+)

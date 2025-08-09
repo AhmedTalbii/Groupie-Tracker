@@ -30,7 +30,7 @@ type Helpers struct{}
 // CheckGet validates that the incoming HTTP request uses the GET method.
 // If the request method is not GET, it automatically renders a 405 Method Not Allowed
 // error page and terminates the request processing.
-func (a Helpers) CheckGet(w http.ResponseWriter, r *http.Request) {
+func (a *Helpers) CheckGet(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
 		a.ErrorPage(w, http.StatusMethodNotAllowed)
 		return
@@ -38,7 +38,7 @@ func (a Helpers) CheckGet(w http.ResponseWriter, r *http.Request) {
 }
 
 // ErrorPage renders a custom error page with the specified HTTP status code.
-func (a Helpers) ErrorPage(w http.ResponseWriter, status int) {
+func (a *Helpers) ErrorPage(w http.ResponseWriter, status int) {
 	msg := http.StatusText(status)
 
 	tmp, err := template.ParseFiles(PagesPath + "error.html")
@@ -62,7 +62,7 @@ func (a Helpers) ErrorPage(w http.ResponseWriter, status int) {
 // RenderPage renders any HTML template page with provided data.
 // This is a generic template rendering method that can be used for any page
 // Note: The template file path is constructed by appending ".html" to UrlPage,
-func (a Helpers) RenderPage(UrlPage string, RendredData any, w http.ResponseWriter) {
+func (a *Helpers) RenderPage(UrlPage string, RendredData any, w http.ResponseWriter) {
 	// Parse and compile the template - panics if parsing fails
 	Templ := template.Must(template.ParseFiles(UrlPage + ".html"))
 	err := Templ.Execute(w, RendredData)
@@ -72,10 +72,23 @@ func (a Helpers) RenderPage(UrlPage string, RendredData any, w http.ResponseWrit
 	}
 }
 
+// RenderPageInsideBuffer parses the specified HTML template and executes it with the given data,
+// writing the rendered output into the provided buffer instead of directly to the response.
+// Panics if the template fails to parse, and logs a fatal error if execution fails.
+func (a *Helpers) RenderPageInsideBuffer(UrlPage string, RendredData any, buf *bytes.Buffer) {
+	// Parse and compile the template - panics if parsing fails
+	Templ := template.Must(template.ParseFiles(UrlPage + ".html"))
+	err := Templ.Execute(buf, RendredData)
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+}
+
 // sends HTTP GET request to URL,
 // decodes the JSON response into 'result',
 // and returns any error if exist.
-func (a Helpers) Fetch(url string, result interface{}) error {
+func (a *Helpers) Fetch(url string, result interface{}) error {
 	resp, err := http.Get(url)
 	if err != nil {
 		return err
@@ -89,7 +102,7 @@ func (a Helpers) Fetch(url string, result interface{}) error {
 }
 
 // InternalServerError renders 500 Internal Server Error page with embedded HTML and CSS.
-func (Helpers) InternalServerError(w http.ResponseWriter) {
+func (a *Helpers) InternalServerError(w http.ResponseWriter) {
 	w.WriteHeader(http.StatusInternalServerError)
 	w.Write([]byte(`
 		<!DOCTYPE html>
