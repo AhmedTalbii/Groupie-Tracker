@@ -1,43 +1,66 @@
 .modal {
   display: none;
   position: fixed;
-  top: 0;
+  z-index: 1000;
   left: 0;
+  top: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(3px);
+  animation: fadin 0.3s ease;
 }
 
 .modal:target {
   display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .modal-content {
   background: white;
-  padding: 20px;
-  width: 500px;
-  max-width: 90%;
-  border-radius: 12px;
-  position: relative;
-  animation: modalOpen 0.3s ease;
-  max-height: 90vh;
+  backdrop-filter: blur(15px);
+  border-radius: 24px;
+  padding: 40px;
+  max-width: 650px;
+  width: 90%;
+  max-height: 85vh;
   overflow-y: auto;
+  position: relative;
+  color: #1a202c;
+  animation: up 0.2s ease-in;
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .close-btn {
-  position: absolute;
+  position: sticky;
   top: 10px;
-  right: 15px;
-  font-size: 24px;
-  text-decoration: none;
-  color: #333;
+  right: -100px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.733);
+  backdrop-filter: blur(10px);
+  border-radius: 50%;
+  color: #ffffff;
+  font-size: 18px;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.close-btn:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: #dc2626;
+  transform: rotate(90deg);
 }
 
 .artist-header {
   text-align: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid rgba(105, 1, 1, 0.1);
 }
 
 .artist-image {
@@ -45,35 +68,109 @@
   height: 150px;
   border-radius: 50%;
   object-fit: cover;
+  margin-bottom: 20px;
+  border: 4px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
 }
 
-.artist-details ul {
-  margin: 5px 0;
-  padding-left: 20px;
+.artist-image:hover {
+  transform: scale(1.05);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
-.artist-links {
-  margin-top: 15px;
+.artist-header h2 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.artist-details {
+  line-height: 1.8;
+  font-size: 0.95rem;
   text-align: center;
 }
 
+.artist-details>div {
+  margin-bottom: 20px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 12px;
+  border: 3px solid #7a0003;
+}
+
+.artist-details strong {
+  color: #690101;
+  font-size: 1.05rem;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.artist-details ul {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.artist-details li {
+  padding: 8px 15px;
+  background: rgba(255, 0, 0, 0.5);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.artist-details li:hover {
+  background: rgba(255, 0, 0, 0.1);
+  transform: translateX(5px);
+}
+
+.artist-links {
+  text-align: center;
+  margin-top: 30px;
+  padding-top: 25px;
+  border-top: 2px solid rgba(105, 1, 1, 0.1);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+}
+
 .artist-links a {
-  color: #007BFF;
+  color: white;
+  background: linear-gradient(135deg, #690101, #af0000);
+  padding: 10px 20px;
+  border-radius: 25px;
   text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(105, 1, 1, 0.3);
+  border: 2px solid transparent;
 }
 
 .artist-links a:hover {
-  text-decoration: underline;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(105, 1, 1, 0.4);
+  background: linear-gradient(135deg, #af0000, #690101);
 }
 
-@keyframes modalOpen {
+@keyframes fadin {
   from {
-    transform: scale(0.8);
     opacity: 0;
   }
-
   to {
-    transform: scale(1);
     opacity: 1;
+  }
+}
+
+@keyframes up {
+  from {
+    opacity: 0;
+    transform: translateY(50px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }

@@ -2,22 +2,15 @@ package handlers
 
 import (
 	"net/http"
-	"os"
 
-	"groupie-tracker/helpers"
+	"groupie-tracker/biblio"
 )
 
-// serves static files if the path is valid and not a directory,
-// otherwise returns forbidden or server errors.
+// Serves static files if valid; returns error pages for invalid paths or directories.
 func StaticsHandle(w http.ResponseWriter, r *http.Request) {
-	info, err := os.Stat(r.URL.Path[1:])
-	if err != nil {
-		helpers.Help.ErrorPage(w, http.StatusNotFound)
+	if biblio.Help.CheckConnection() != nil {
+		biblio.Help.ErrorPage(w, http.StatusServiceUnavailable)
 		return
 	}
-	if info.IsDir() {
-		helpers.Help.ErrorPage(w, http.StatusForbidden)
-		return
-	}
-	http.ServeFile(w, r, r.URL.Path[1:])
+	biblio.Help.StaticsHandler(w, r)
 }

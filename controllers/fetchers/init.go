@@ -2,24 +2,37 @@ package fetchers
 
 import (
 	"strconv"
+	"sync"
 	"time"
 
+	"groupie-tracker/biblio"
 	"groupie-tracker/config"
-	"groupie-tracker/helpers"
 	"groupie-tracker/models"
 )
 
-func CompareAndFetch() {
+func InitFetch() error {
 	if models.LastTimeFetch.Before(time.Now().Add(-config.TimeToRefreshData)) {
 		var artists []models.Artist
 		var relations models.RelationsIndex
 		var locations models.LocationsIndex
 		var dates models.DatesIndex
 
-		helpers.Help.Fetch(config.ArtistsURL, &artists)
-		helpers.Help.Fetch(config.RelationsURL, &relations)
-		helpers.Help.Fetch(config.LocationURL, &locations)
-		helpers.Help.Fetch(config.DatesURL, &dates)
+		urls := map[any]string{
+			&artists:   config.ArtistsURL,
+			&relations: config.RelationsURL,
+			&locations: config.LocationURL,
+			&dates:     config.DatesURL,
+		}
+
+		var wg sync.WaitGroup
+		for a, u := range urls {
+			wg.Add(1)
+			go func(an *any, url string) {
+				biblio.Help.Fetch(url, an)
+				wg.Done()
+				}(&a, u)
+		}
+		wg.Wait()
 
 		fullData := &models.AllData{
 			Artists:   artists,
@@ -46,10 +59,22 @@ func CompareAndFetch() {
 			}
 			models.ArtistsFullData = append(models.ArtistsFullData, *ArtistAllData)
 		}
-
-		helpers.Help.RenderPageInsideBuffer(config.Pages+"index", nil, &models.HomeTemplate)
-		helpers.Help.RenderPageInsideBuffer(config.Pages+"artists", struct{ Artists []models.ArtistAllData }{Artists: models.ArtistsFullData}, &models.ArtistsTemplate)
+		var err error
+		if models.AtStartingServer {
+			if err = biblio.Help.RenderPageInsideBuffer(config.Pages+"index", nil, &models.HomeTemplate); err != nil {
+				return err
+			}
+			if err = biblio.Help.RenderPageInsideBuffer(config.Pages+"artists", struct{ Artists []models.ArtistAllData }{Artists: models.ArtistsFullData}, &models.ArtistsTemplate); err != nil {
+				return err
+			}
+			models.AtStartingServer = false
+		} else {
+			if err = biblio.Help.RenderPageInsideBuffer(config.Pages+"artists", struct{ Artists []models.ArtistAllData }{Artists: models.ArtistsFullData}, &models.ArtistsTemplate); err != nil {
+				return err
+			}
+		}
 
 		models.LastTimeFetch = time.Now()
 	}
+	return nil
 }

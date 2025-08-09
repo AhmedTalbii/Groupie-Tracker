@@ -1,6 +1,6 @@
 // Package helpers provides utility functions for HTTP request handling,
 // template rendering, and error page management in Go web applications.
-package helpers
+package biblio
 
 import (
 	"bytes"
@@ -8,28 +8,24 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 )
 
+type Helpers struct{} // Helpers is an empty struct that serves as a receiver for helper methods.
+
 var Help Helpers
 
-// Configuration variables
-var (
-	PagesPath = "helpers/pages/"
-)
+var PagesPath = "biblio/pages/" // PagesPath is the directory path for external files.
 
 // Data represents the structure for error page template data.
 type Data struct {
-	Error   string // Human-readable error message (e.g., "Not Found")
-	StatusE string // HTTP status code as string (e.g., "404")
+	Error   string
+	StatusE string
 }
 
-// Helpers is an empty struct that serves as a receiver for helper methods.
-type Helpers struct{}
-
-// CheckGet validates that the incoming HTTP request uses the GET method.
-// If the request method is not GET, it automatically renders a 405 Method Not Allowed
-// error page and terminates the request processing.
+// CheckGet ensures the request method is GET;
+// if not, it sends a 405 error page and stops processing.
 func (a *Helpers) CheckGet(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
 		a.ErrorPage(w, http.StatusMethodNotAllowed)
@@ -37,9 +33,28 @@ func (a *Helpers) CheckGet(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// ErrorPage renders a custom error page with the specified HTTP status code.
+// serves static files if the path exists and is not a directory;
+// otherwise, it shows 404 or 403 error pages.
+func (a *Helpers) StaticsHandler(w http.ResponseWriter, r *http.Request) {
+	info, err := os.Stat(r.URL.Path[1:])
+	if err != nil {
+		a.ErrorPage(w, http.StatusNotFound)
+		return
+	}
+	if info.IsDir() {
+		a.ErrorPage(w, http.StatusForbidden)
+		return
+	}
+	http.ServeFile(w, r, r.URL.Path[1:])
+}
+
+// ErrorPage renders error page with the specified HTTP status code.
 func (a *Helpers) ErrorPage(w http.ResponseWriter, status int) {
 	msg := http.StatusText(status)
+
+	if status == 404 {
+		msg = "Page " + msg
+	}
 
 	tmp, err := template.ParseFiles(PagesPath + "error.html")
 	if err != nil {
@@ -48,8 +63,7 @@ func (a *Helpers) ErrorPage(w http.ResponseWriter, status int) {
 		return
 	}
 
-	// Use a buffer to execute the template safely before writing to response
-	var buf bytes.Buffer
+	var buf bytes.Buffer // Use a buffer to execute the template safely before writing to response
 	errExec := tmp.Execute(&buf, Data{Error: msg, StatusE: strconv.Itoa(status)})
 	if errExec != nil {
 		a.InternalServerError(w)
@@ -59,35 +73,33 @@ func (a *Helpers) ErrorPage(w http.ResponseWriter, status int) {
 	w.Write(buf.Bytes())
 }
 
-// RenderPage renders any HTML template page with provided data.
-// This is a generic template rendering method that can be used for any page
-// Note: The template file path is constructed by appending ".html" to UrlPage,
+// renders an HTML page with data.
+// Shows error page if rendering fails.
 func (a *Helpers) RenderPage(UrlPage string, RendredData any, w http.ResponseWriter) {
-	// Parse and compile the template - panics if parsing fails
-	Templ := template.Must(template.ParseFiles(UrlPage + ".html"))
-	err := Templ.Execute(w, RendredData)
-	if err != nil {
+	var buf bytes.Buffer
+	if err := a.RenderPageInsideBuffer(UrlPage, RendredData, &buf); err != nil {
 		a.ErrorPage(w, http.StatusInternalServerError)
 		return
 	}
+	w.Write(buf.Bytes())
 }
 
-// RenderPageInsideBuffer parses the specified HTML template and executes it with the given data,
-// writing the rendered output into the provided buffer instead of directly to the response.
-// Panics if the template fails to parse, and logs a fatal error if execution fails.
-func (a *Helpers) RenderPageInsideBuffer(UrlPage string, RendredData any, buf *bytes.Buffer) {
-	// Parse and compile the template - panics if parsing fails
-	Templ := template.Must(template.ParseFiles(UrlPage + ".html"))
-	err := Templ.Execute(buf, RendredData)
+// renders a template with data into a buffer.
+// return err if parsing or execution fails.
+func (a *Helpers) RenderPageInsideBuffer(UrlPage string, RendredData any, buf *bytes.Buffer) error {
+	Templ, err := template.ParseFiles(UrlPage + ".html")
 	if err != nil {
-		log.Fatal(err)
-		return
+		return err
 	}
+
+	err = Templ.Execute(buf, RendredData)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
-// sends HTTP GET request to URL,
-// decodes the JSON response into 'result',
-// and returns any error if exist.
+// sends a GET request to URL, decodes JSON response into result, and returns any error.
 func (a *Helpers) Fetch(url string, result interface{}) error {
 	resp, err := http.Get(url)
 	if err != nil {
@@ -101,7 +113,7 @@ func (a *Helpers) Fetch(url string, result interface{}) error {
 	return nil
 }
 
-// InternalServerError renders 500 Internal Server Error page with embedded HTML and CSS.
+// renders 500 Internal Server Error page with embedded HTML and CSS.
 func (a *Helpers) InternalServerError(w http.ResponseWriter) {
 	w.WriteHeader(http.StatusInternalServerError)
 	w.Write([]byte(`
@@ -141,3 +153,12 @@ func (a *Helpers) InternalServerError(w http.ResponseWriter) {
 		</html>`))
 }
 
+// check the connection if is on
+// else return error
+func (a *Helpers) CheckConnection() error {
+	_, err := http.Get("https://google.com")
+	if err != nil {
+		return err
+	}
+	return nil
+}

@@ -3,23 +3,28 @@ package handlers
 import (
 	"net/http"
 
+	"groupie-tracker/biblio"
 	"groupie-tracker/controllers/fetchers"
-	"groupie-tracker/helpers"
 	"groupie-tracker/models"
 )
 
-// handles GET requests by fetching all artists and rendering them.
-// uses a mutex to safely access shared data between goroutines.
-// in case the is a fetching problem will render the error page
+// Handles GET requests to fetch all artists, render them, and show an error page if fetching fails. Uses a mutex for safe concurrent data access.
 func ArtistsHandle(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
-		helpers.Help.ErrorPage(w, http.StatusMethodNotAllowed)
+		biblio.Help.ErrorPage(w, http.StatusMethodNotAllowed)
 		return
 	}
 
+	if biblio.Help.CheckConnection() != nil{
+		biblio.Help.ErrorPage(w,http.StatusServiceUnavailable)
+		return
+	}
+	
 	models.Mu.Lock()
-	fetchers.CompareAndFetch()
+	if err := fetchers.InitFetch(); err != nil {
+		biblio.Help.ErrorPage(w, http.StatusInternalServerError)
+		return
+	}
 	models.Mu.Unlock()
-
 	w.Write(models.ArtistsTemplate.Bytes())
 }

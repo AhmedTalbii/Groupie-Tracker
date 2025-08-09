@@ -6,15 +6,13 @@ import (
 	"groupie-tracker/controllers/handlers"
 )
 
-// Routes Handling Automaticly using map
+// Automatically registers routes from a map to the provided ServeMux.
 func RoutesHandle(mux *http.ServeMux) {
-	// Routes
 	Routes := map[string]func(http.ResponseWriter, *http.Request){
 		"/":         handlers.HomeHandle,
 		"/artists":  handlers.ArtistsHandle,
 		"/statics/": handlers.StaticsHandle,
 	}
-	// for range to handle the routs
 	for path, handler := range Routes {
 		mux.HandleFunc(path, handler)
 	}

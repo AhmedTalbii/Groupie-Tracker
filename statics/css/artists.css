@@ -32,7 +32,7 @@ nav img {
     width: 200px;
 }
 
-/* ---------------- */
+
 .parent {
     display: flex;
     flex-wrap: wrap;
@@ -105,7 +105,7 @@ a {
 
 
 
-/* -------------------- */
+
 
 @media only screen and (max-width: 1200px) {
     .parent {

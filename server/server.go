@@ -10,11 +10,12 @@ import (
 	"groupie-tracker/routes"
 )
 
-// initializes the HTTP server by setting up routes,
-// configuring the server with the specified port and handler,
-// then starts listening and serving requests.
+// start fetching Data 
+// Starts HTTP server with the given routes, port, and handler, then begins serving requests.
 func StartServer() {
-	fetchers.InitFetch()
+	if err := fetchers.InitFetch(); err != nil {
+		log.Fatal(err)
+	}
 
 	mux := http.NewServeMux()
 	routes.RoutesHandle(mux)
