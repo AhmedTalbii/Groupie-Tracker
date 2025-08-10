@@ -23,7 +23,6 @@ Groupie Trackers is a web application built in Go that consumes a provided API t
 ## Requirements
 - Backend: **Go**
 - Follow good coding practices.
-- Optional: Unit tests for validation.
 
 ## How to Run
 ```bash
