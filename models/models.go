@@ -2,11 +2,11 @@ package models
 
 import (
 	"bytes"
+	"groupie-tracker/config"
 	"sync"
 	"time"
 )
 
-// artists
 type Artist struct {
 	Id           int      `json:"id"`
 	Image        string   `json:"image"`
@@ -35,7 +35,6 @@ type Relations struct {
 	DatesLocations map[string][]string `json:"datesLocations"`
 }
 
-// thoes struct cause somme apis have index witch is array thats whhy we make them
 type LocationsIndex struct {
 	Index []Locations `json:"index"`
 }
@@ -48,7 +47,7 @@ type RelationsIndex struct {
 	Index []Relations `json:"index"`
 }
 
-// all data so that we can acces to all the data easly
+// all data so that we can acces to all the strcucts easly
 type AllData struct {
 	Artists   []Artist
 	Locations LocationsIndex
@@ -56,6 +55,8 @@ type AllData struct {
 	Relations RelationsIndex
 }
 
+
+// this stuct contain all the data for etch artist
 type ArtistAllData struct {
 	Id           int
 	Image        string
@@ -80,8 +81,9 @@ var (
 	ArtistsTemplate bytes.Buffer
 )
 
-// ttl
+// ttl 
 var (
 	Mu            sync.Mutex
-	LastTimeFetch time.Time
+	LastTimeFetch time.Time = time.Now().Add(-config.TimeToRefreshData)
+	AtStartingServer = true
 )

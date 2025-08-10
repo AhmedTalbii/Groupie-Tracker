@@ -5,12 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GT</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/statics/css/artists.css">
     <link rel="stylesheet" href="/statics/css/artist.css">
 </head>
 
 <body>
-    <div class="glass">
+    <div>
 
         <nav>
             <a href="/"><img src="/statics/assets/Logo.png" alt=""></a>
@@ -22,7 +23,7 @@
             <div class="modal" id="artist{{.Id}}">
                 <div class="modal-content">
                     <!-- Close button goes back to page without hash -->
-                    <a href="#" class="close-btn">&times;</a>
+                    <a href="#" class="close-btn"><i class="fa-solid fa-xmark"></i></a>
 
                     <div class="artist-header">
                         <img src="{{.Image}}" alt="{{.Name}}" class="artist-image">
@@ -32,7 +33,7 @@
                     <div class="artist-details">
                         <p><strong>Creation Date:</strong> {{.CreationDate}}</p>
                         <p><strong>First Album:</strong> {{.FirstAlbum}}</p>
-
+                        
                         <div>
                             <strong>Members:</strong>
                             <ul>

@@ -3,22 +3,24 @@ package handlers
 import (
 	"net/http"
 
-	"groupie-tracker/helpers"
+	"groupie-tracker/biblio"
 	"groupie-tracker/models"
 )
 
-// serves the homepage by validating the request path, connection and method,
-// then rendering the "index" template if it's a valid GET request to "/".
-// fetch artists data before moving to the next page
+// Serves the homepage, validating path/method and rendering the "index" template.
 func HomeHandle(w http.ResponseWriter, r *http.Request) {
+	if biblio.Help.CheckConnection() != nil{
+		biblio.Help.ErrorPage(w,http.StatusServiceUnavailable)
+		return
+	}
 	if r.URL.Path != "/" {
-		helpers.Help.ErrorPage(w, http.StatusNotFound)
+		biblio.Help.ErrorPage(w, http.StatusNotFound)
 		return
 	}
+	
 	if r.Method != http.MethodGet {
-		helpers.Help.ErrorPage(w, http.StatusMethodNotAllowed)
+		biblio.Help.ErrorPage(w, http.StatusMethodNotAllowed)
 		return
 	}
-
 	w.Write(models.HomeTemplate.Bytes())
 }
