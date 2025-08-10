@@ -1,38 +1,73 @@
+# Groupie Trackers
+
+Groupie Trackers is a web application built in Go that consumes a provided API to display information about artists. The API includes:
+
+- **Artists**: Names, images, start year, first album date, members.
+- **Locations**: Concert locations.
+- **Dates**: Concert dates.
+- **Relation**: Links artists, dates, and locations.
+
+## Link to the hosted website
+[Groupie Tracker](https://gtia.up.railway.app/)
+
+## Authors
+- Aboudou Ilyass
+- Talbi Ahmed
+
+## Features
+- User-friendly display using cards, tables, or lists.
+- Client-server communication with a custom event/action that triggers a request to the server.
+- Fully functional backend in Go.
+- Error handling to ensure stability.
+
+## Requirements
+- Backend: **Go**
+- Follow good coding practices.
+- Optional: Unit tests for validation.
+
+## How to Run
+```bash
+git clone https://learn.zone01oujda.ma/git/ahtalbi/groupie-tracker.git
+cd groupie-tracker
+go run .
 ```
-.
-└── Groupie-Tracker/
-    ├── config/
-    │   └── config.go
-    ├── models/
+
+## Notes
+This project was developed as part of the **Zone01 Cursus**.
+
+
+## structure
+```
+Groupie Tracher
+|
+├── README.md
+├── biblio
+    ├── biblio.go
+    └── pages
+    │   └── error.html
+├── config
+    └── config.go
+├── controllers
+    ├── fetchers
+    │   └── init.go
+    └── handlers
     │   ├── artists.go
-    │   └── ...
-    ├── statics/
-    │   └── css/
-    │       ├── style.css
-    │       └── ...
-    ├── views/
-    │   ├── components/
-    │   │   └── ...
-    │   ├── sections/
-    │   │   └── ...
-    │   ├── pages/
-    │   │   ├── error.html
-    │   │   ├── atist.html
-    │   │   ├── artists.html
-    │   │   ├── aboutUs.html
-    │   │   └── index.html
-    │   └── layout.html
-    ├── controllers/
-    │   ├── handlers /
-    │   │   ├── home.go
-    │   │   ├── artists.go
-    │   │   ├── artist.go
-    │   │   ├── aboutUs.go
-    │   │   └── static.go
-    │   ├── fetchers/
-    │   │   ├── fetch.go
-    │   │   ├── fartists.go
-    │   │   └── fartist.go
-    │   └── rendrers/
-    │       └── render.go
-    └── README.md
+    │   ├── home.go
+    │   └── static.go
+├── go.mod
+├── main.go
+├── models
+    └── models.go
+├── routes
+    └── router.go
+├── server
+    └── server.go
+├── statics
+    ├── assets
+    │   ├── Logo.png
+    │   ├── mockup.png
+    │   └── s.png
+    └── css
+    │   ├── artist.css
+    │   ├── artists.css
+    │   └── index.css
