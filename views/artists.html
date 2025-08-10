@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GT</title>
+    <title>Groupie Tracker</title>
+    <link rel="shortcut icon" href="https://static.vecteezy.com/system/resources/thumbnails/037/753/271/small_2x/music-icon-3d-render-illustration-png.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/statics/css/artists.css">
     <link rel="stylesheet" href="/statics/css/artist.css">
@@ -44,10 +45,15 @@
                         </div>
                         
                         <div>
-                            <strong>Concert Dates:</strong>
+                            <strong>Relations:</strong>
                             <ul>
-                                {{range .Dates}}
-                                <li>{{.}}</li>
+                                {{range $location, $dates := .Relations}}
+                                <li class="relation-location">{{$location}}</li>
+                                <ul>
+                                    {{range $dates}}
+                                        <li>{{.}}</li>
+                                    {{end}}
+                                </ul>
                                 {{end}}
                             </ul>
                         </div>
