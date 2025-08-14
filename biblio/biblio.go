@@ -6,7 +6,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"html/template"
-	"log"
 	"net/http"
 	"os"
 	"strconv"
