@@ -58,8 +58,7 @@ func (a *Helpers) ErrorPage(w http.ResponseWriter, status int) {
 
 	tmp, err := template.ParseFiles(PagesPath + "error.html")
 	if err != nil {
-		http.Error(w, strconv.Itoa(status)+" "+msg, http.StatusInternalServerError)
-		log.Println(err)
+		a.InternalServerError(w)
 		return
 	}
 
